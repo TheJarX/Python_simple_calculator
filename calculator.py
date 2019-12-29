@@ -20,11 +20,16 @@ class Calculator():
         self.btn_9 = Button(master, text='9', padx=40, pady=20, command=lambda: self.num_handler(9))
         self.btn_0 = Button(master, text='0', padx=40, pady=20, command=lambda: self.num_handler(0))
 
+        self.btn_clear = Button(master, text='C', padx=39, pady=20,  command=lambda: self.handler('clear'))
+        self.btn_equal = Button(master, text='=', padx=39, pady=51.5,  command=lambda: self.handler('equal'))
+        
         self.btn_add = Button(master, text='+', padx=39, pady=20,  command=lambda: self.handler('add'))
         self.btn_subs = Button(master, text='- ', padx=39, pady=20,  command=lambda: self.handler('substract'))
         
-        self.btn_clear = Button(master, text='C', padx=40, pady=20,  command=lambda: self.handler('clear'))
-        self.btn_equal = Button(master, text='=', padx=39, pady=51.5,  command=lambda: self.handler('equal'))
+        self.btn_mult = Button(master, text='* ', padx=39, pady=20,  command=lambda: self.handler('multiply'))
+        self.btn_div = Button(master, text='/ ', padx=39, pady=20,  command=lambda: self.handler('divide'))
+        self.btn_del = Button(master, text='Del ', padx=32.5, pady=20,  command=lambda: self.handler('delete'))
+        
 
         #Render buttons
         self.btn_1.grid(row=3, column=0)
@@ -40,11 +45,15 @@ class Calculator():
         self.btn_9.grid(row=1, column=2)
 
         self.btn_0.grid(row=4, column=0)
-        self.btn_add.grid(row=4, column=1)
+        self.btn_clear.grid(row=4, column=1)
         self.btn_equal.grid(row=4, column=2, rowspan=2)
 
-        self.btn_clear.grid(row=5, column=0)
+        self.btn_add.grid(row=5, column=0)
         self.btn_subs.grid(row=5, column=1)
+
+        self.btn_mult.grid(row=6, column=0)
+        self.btn_div.grid(row=6, column=1)
+        self.btn_del.grid(row=6, column=2)
 
     def num_handler(self, number):
         if self.error:
@@ -60,8 +69,14 @@ class Calculator():
             self.num_handler('+')
         elif opt == 'substract':
             self.num_handler('-')
+        elif opt == 'multiply':
+            self.num_handler('*')
+        elif opt == 'divide':
+            self.num_handler('/')
         elif opt == 'clear':
             self.clear()
+        elif opt == 'delete':
+            self.delete()
         elif opt == 'equal':
             self.showAnswer()
 
@@ -76,3 +91,8 @@ class Calculator():
         except SyntaxError:
             self.error = True
             self.userEntry.insert(0, 'Syntax Error!')
+
+    def delete(self):
+        current = str(self.userEntry.get())
+        self.clear()
+        self.userEntry.insert(0, current[:-1] )
